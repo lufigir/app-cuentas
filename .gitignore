@@ -1,3 +1,4 @@
 .idea/
 .vscode/
 *.log
+thunder-tests/thunderEnvironment.json
