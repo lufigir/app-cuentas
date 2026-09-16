@@ -79,4 +79,9 @@ class AuthTest extends TestCase
     {
         $this->getJson('/api/me')->assertUnauthorized();
     }
+
+    public function test_a_guest_gets_401_even_without_the_json_accept_header(): void
+    {
+        $this->get('/api/me')->assertUnauthorized();
+    }
 }
