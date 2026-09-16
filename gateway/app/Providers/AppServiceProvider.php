@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Services\AccountsServiceClient;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -12,11 +11,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton(AccountsServiceClient::class, fn () => new AccountsServiceClient(
-            baseUrl: rtrim(config('services.accounts.url'), '/'),
-            apiKey: (string) config('services.accounts.key'),
-            timeout: (int) config('services.accounts.timeout'),
-        ));
+        //
     }
 
     /**

@@ -1,9 +1,7 @@
-import hmac
-
 from flask import Flask, jsonify, request
 
 from config import Config
-from errors import AppError, UnauthorizedError
+from errors import AppError
 from extensions import db, migrate
 from services import account_service
 
@@ -17,32 +15,16 @@ def create_app(config_class=Config):
 
     import models  # noqa: F401
 
-    register_api_key_guard(app)
     register_routes(app)
     register_error_handlers(app)
 
     return app
 
 
-def register_api_key_guard(app):
-    @app.before_request
-    def require_api_key():
-        if not request.path.startswith("/api/"):
-            return None
-
-        provided = request.headers.get("X-API-Key", "")
-        expected = app.config["API_KEY"]
-
-        if not hmac.compare_digest(provided, expected):
-            raise UnauthorizedError()
-
-        return None
-
-
 def register_routes(app):
     @app.get("/")
     def index():
-        return {"status": "ok", "service": "accounts-service"}
+        return {"status": "ok", "message": "API Flask funcionando"}
 
     @app.get("/api/accounts")
     def list_accounts():
@@ -76,13 +58,9 @@ def register_error_handlers(app):
     def handle_not_found(_error):
         return jsonify({"error": "Resource not found"}), 404
 
-    @app.errorhandler(405)
-    def handle_method_not_allowed(_error):
-        return jsonify({"error": "Method not allowed"}), 405
-
     @app.errorhandler(500)
     def handle_internal_error(_error):
-        return jsonify({"error": "Internal server error"}), 500
+        return jsonify({"error": "Error interno del servidor"}), 500
 
 
 app = create_app()

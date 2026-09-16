@@ -13,8 +13,3 @@ class NotFoundError(AppError):
 class ConflictError(AppError):
     def __init__(self, message="Conflict with an existing resource"):
         super().__init__(message, status_code=409)
-
-
-class UnauthorizedError(AppError):
-    def __init__(self, message="Invalid or missing API key"):
-        super().__init__(message, status_code=401)
